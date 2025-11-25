@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub - Academic Writing Skills</title>
+   <link rel="stylesheet" href="css/light.css" disabled> 
+    <link rel="stylesheet" href="css/styles2.css" >
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">Learning Hub</h1>
+                <div class="progress-summary" id="progressSummary">
+                    <span class="progress-text">Progress: <strong id="totalProgress">0%</strong></span>
+                </div>
+                <!--<button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌙</button> -->
+                <button id="theme-toggle">Toggle theme 🌙</button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-section="paraphrasing">Paraphrasing</button>
+            <button class="nav-tab" data-section="sentence-starters">Sentence Starters</button>
+            <button class="nav-tab" data-section="connectors">Logical Connectors</button>
+            <button class="nav-tab" data-section="progress">My Progress</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Paraphrasing Section -->
+            <section id="paraphrasing" class="content-section active">
+                <div class="section-header">
+                    <h2>Paraphrasing Techniques</h2>
+                    <p class="section-description">Learn to express ideas in your own words while maintaining the original meaning.</p>
+                </div>
+
+                <div class="content-grid">
+                    <!-- Examples Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Examples</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="example-item">
+                                <div class="example-label">Original:</div>
+                                <p class="example-text">"Climate change poses significant threats to global ecosystems."</p>
+                                <div class="example-label">Paraphrased:</div>
+                                <p class="example-text">"Global ecosystems face considerable dangers from climate change."</p>
+                            </div>
+                            <div class="example-item">
+                                <div class="example-label">Original:</div>
+                                <p class="example-text">"The research demonstrates a clear correlation between exercise and mental health."</p>
+                                <div class="example-label">Paraphrased:</div>
+                                <p class="example-text">"The study shows a strong link between physical activity and psychological well-being."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exercise Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Practice Exercise</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="exercise-prompt">Paraphrase the following sentence:</p>
+                            <div class="original-sentence">"Technology has revolutionized the way we communicate with each other."</div>
+                            <textarea class="exercise-input" id="paraphrasingInput" placeholder="Write your paraphrase here..."></textarea>
+                            <button class="btn btn-primary" onclick="submitParaphrasing()">Submit Answer</button>
+                            <div class="feedback" id="paraphrasingFeedback"></div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Self-Assessment Quiz</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="quiz-question">
+                                <p class="question-text">Which is the best paraphrase of: "Students must complete all assignments before the deadline"?</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="paraphrase-quiz" value="a">
+                                        <span>All assignments must be completed by students before the deadline.</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="paraphrase-quiz" value="b">
+                                        <span>Learners need to finish their tasks prior to the due date.</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="paraphrase-quiz" value="c">
+                                        <span>Students must complete all assignments before the deadline.</span>
+                                    </label>
+                                </div>
+                                <button class="btn btn-secondary" onclick="checkParaphraseQuiz()">Check Answer</button>
+                                <div class="feedback" id="paraphraseQuizFeedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sentence Starters Section -->
+            <section id="sentence-starters" class="content-section">
+                <div class="section-header">
+                    <h2>Academic Sentence Starters</h2>
+                    <p class="section-description">Master professional phrases to begin your academic sentences effectively.</p>
+                </div>
+
+                <div class="content-grid">
+                    <!-- Examples Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Common Sentence Starters</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="starter-category">
+                                <h4>Introducing Arguments:</h4>
+                                <ul class="starter-list">
+                                    <li>"It can be argued that..."</li>
+                                    <li>"This essay will examine..."</li>
+                                    <li>"The primary focus of this study is..."</li>
+                                    <li>"According to recent research..."</li>
+                                </ul>
+                            </div>
+                            <div class="starter-category">
+                                <h4>Presenting Evidence:</h4>
+                                <ul class="starter-list">
+                                    <li>"Research indicates that..."</li>
+                                    <li>"Studies have shown..."</li>
+                                    <li>"Evidence suggests that..."</li>
+                                    <li>"Data reveals that..."</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exercise Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Practice Exercise</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="exercise-prompt">Complete the sentence with an appropriate academic starter:</p>
+                            <div class="sentence-builder">
+                                <select class="starter-select" id="starterSelect">
+                                    <option value="">Choose a starter...</option>
+                                    <option value="correct">It can be argued that</option>
+                                    <option value="wrong1">I think that</option>
+                                    <option value="wrong2">Maybe</option>
+                                    <option value="correct2">Research indicates that</option>
+                                </select>
+                                <span class="sentence-continuation">social media has transformed modern communication.</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="submitStarter()">Check Answer</button>
+                            <div class="feedback" id="starterFeedback"></div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Self-Assessment Quiz</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="quiz-question">
+                                <p class="question-text">Which sentence starter is most appropriate for introducing a counterargument?</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="starter-quiz" value="a">
+                                        <span>"I believe that..."</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="starter-quiz" value="b">
+                                        <span>"However, it could be argued that..."</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="starter-quiz" value="c">
+                                        <span>"In my opinion..."</span>
+                                    </label>
+                                </div>
+                                <button class="btn btn-secondary" onclick="checkStarterQuiz()">Check Answer</button>
+                                <div class="feedback" id="starterQuizFeedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Logical Connectors Section -->
+            <section id="connectors" class="content-section">
+                <div class="section-header">
+                    <h2>Logical Connectors</h2>
+                    <p class="section-description">Use transitional words and phrases to create coherent, flowing arguments.</p>
+                </div>
+
+                <div class="content-grid">
+                    <!-- Examples Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Types of Connectors</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="connector-category">
+                                <h4>Addition:</h4>
+                                <div class="connector-tags">
+                                    <span class="tag">Furthermore</span>
+                                    <span class="tag">Moreover</span>
+                                    <span class="tag">In addition</span>
+                                    <span class="tag">Additionally</span>
+                                </div>
+                            </div>
+                            <div class="connector-category">
+                                <h4>Contrast:</h4>
+                                <div class="connector-tags">
+                                    <span class="tag">However</span>
+                                    <span class="tag">Nevertheless</span>
+                                    <span class="tag">On the other hand</span>
+                                    <span class="tag">Conversely</span>
+                                </div>
+                            </div>
+                            <div class="connector-category">
+                                <h4>Cause & Effect:</h4>
+                                <div class="connector-tags">
+                                    <span class="tag">Therefore</span>
+                                    <span class="tag">Consequently</span>
+                                    <span class="tag">As a result</span>
+                                    <span class="tag">Thus</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exercise Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Practice Exercise</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="exercise-prompt">Choose the appropriate connector for the context:</p>
+                            <div class="connector-exercise">
+                                <p>"The study found positive results. <select class="connector-select" id="connectorSelect">
+                                    <option value="">___</option>
+                                    <option value="wrong">In addition</option>
+                                    <option value="correct">However</option>
+                                    <option value="wrong2">Therefore</option>
+                                </select>, further research is needed to confirm these findings."</p>
+                            </div>
+                            <button class="btn btn-primary" onclick="submitConnector()">Check Answer</button>
+                            <div class="feedback" id="connectorFeedback"></div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Self-Assessment Quiz</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="quiz-question">
+                                <p class="question-text">Which connector best shows a cause-and-effect relationship?</p>
+                                <div class="quiz-options">
+                                    <label class="quiz-option">
+                                        <input type="radio" name="connector-quiz" value="a">
+                                        <span>"Furthermore"</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="connector-quiz" value="b">
+                                        <span>"Consequently"</span>
+                                    </label>
+                                    <label class="quiz-option">
+                                        <input type="radio" name="connector-quiz" value="c">
+                                        <span>"Nevertheless"</span>
+                                    </label>
+                                </div>
+                                <button class="btn btn-secondary" onclick="checkConnectorQuiz()">Check Answer</button>
+                                <div class="feedback" id="connectorQuizFeedback"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progress" class="content-section">
+                <div class="section-header">
+                    <h2>My Progress</h2>
+                    <p class="section-description">Track your learning journey and completed exercises.</p>
+                </div>
+
+                <div class="progress-grid">
+                    <div class="card progress-card">
+                        <div class="card-header">
+                            <h3>Overall Progress</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="progress-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value" id="completedExercises">0</div>
+                                    <div class="stat-label">Exercises Completed</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="quizzesPassed">0</div>
+                                    <div class="stat-label">Quizzes Passed</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="overallScore">0%</div>
+                                    <div class="stat-label">Overall Score</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card progress-card">
+                        <div class="card-header">
+                            <h3>Module Progress</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="module-progress">
+                                <div class="module-item">
+                                    <div class="module-info">
+                                        <span class="module-name">Paraphrasing</span>
+                                        <span class="module-percentage" id="paraphrasingProgress">0%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="paraphrasingBar" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="module-item">
+                                    <div class="module-info">
+                                        <span class="module-name">Sentence Starters</span>
+                                        <span class="module-percentage" id="startersProgress">0%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="startersBar" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="module-item">
+                                    <div class="module-info">
+                                        <span class="module-name">Logical Connectors</span>
+                                        <span class="module-percentage" id="connectorsProgress">0%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="connectorsBar" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card progress-card full-width">
+                        <div class="card-header">
+                            <h3>Recent Activity</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="activity-list" id="activityList">
+                                <p class="empty-state">No activities yet. Start completing exercises to see your progress!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/script2.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html>

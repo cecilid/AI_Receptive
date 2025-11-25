@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Diary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .recording-pulse::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.4);
+            animation: pulse-ring 1.5s ease-out infinite;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .next-btn {
+            background-color: #4F46E5;
+            color: white;
+            padding: 12px 22px;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .next-btn:hover {
+            background-color: #4338CA;
+        }
+
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 to-purple-50 min-h-screen p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Let's write the Methodology of your paper</h1>
+            <p class="text-gray-600">answer this questions</p>
+            
+        </header>
+
+        <!-- Browser notice shown when speech recognition is unavailable -->
+        <div id="browserNotice" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-lg w-full p-6">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Better experience available in Chrome/Edge</h3>
+                        <p class="text-sm text-gray-600 mt-2">Your browser does not support live speech-to-text. For live transcription, please use <a class="text-indigo-600 underline" href="https://www.google.com/chrome" target="_blank" rel="noopener">Chrome</a> or <a class="text-indigo-600 underline" href="https://www.microsoft.com/edge" target="_blank" rel="noopener">Edge</a>. This site will still record audio in this browser.</p>
+                    </div>
+                    <button id="closeNotice" class="ml-4 text-gray-400 hover:text-gray-600 focus:outline-none">✕</button>
+                </div>
+
+                <div class="mt-4 flex items-center justify-end gap-3">
+                    <label class="inline-flex items-center text-sm text-gray-600">
+                        <input id="dontShowAgain" type="checkbox" class="mr-2">
+                        Don't show again
+                    </label>
+                    <button id="noticeDismiss" class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700">Got it</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Added Methodology Questions Carousel -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-6">
+            <div class="relative">
+                <!-- Carousel Container -->
+                <div class="overflow-hidden">
+                    <div id="carouselTrack" class="flex transition-transform duration-500 ease-in-out">
+                        <!-- Question 1 -->
+                        <div class="carousel-slide w-full flex-shrink-0">
+                            <div class="text-center mb-6">
+                                <span class="inline-block bg-indigo-100 text-indigo-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Question 1 of 8</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Research Design</h3>
+                                <p class="text-gray-600">What type of research design did you use? (e.g., experimental, observational, qualitative, quantitative, mixed methods)</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Question 2 -->
+                        <div class="carousel-slide w-full flex-shrink-0">
+                            <div class="text-center mb-6">
+                                <span class="inline-block bg-indigo-100 text-indigo-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Question 2 of 8</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Study Population</h3>
+                                <p class="text-gray-600">Who were your participants or subjects? Describe the population, sample size, and sampling method.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Question 3 -->
+                        <div class="carousel-slide w-full flex-shrink-0">
+                            <div class="text-center mb-6">
+                                <span class="inline-block bg-indigo-100 text-indigo-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Question 3 of 8</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Data Collection</h3>
+                                <p class="text-gray-600">What methods did you use to collect data? (e.g., surveys, interviews, experiments, observations)</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Question 4 -->
+                        <div class="carousel-slide w-full flex-shrink-0">
+                            <div class="text-center mb-6">
+                                <span class="inline-block bg-indigo-100 text-indigo-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Question 4 of 8</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Instruments & Tools</h3>
+                                <p class="text-gray-600">What instruments, tools, or equipment did you use? Describe any questionnaires, software, or apparatus.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Question 5 -->
+                        <div class="carousel-slide w-full flex-shrink-0">
+                            <div class="text-center mb-6">
+                                <span class="inline-block bg-indigo-100 text-indigo-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Question 5 of 8</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Procedures</h3>
+                                <p class="text-gray-600">Describe the step-by-step procedures you followed. How was the study conducted?</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Question 6 -->
+                        <div class="carousel-slide w-full flex-shrink-0">
+                            <div class="text-center mb-6">
+                                <span class="inline-block bg-indigo-100 text-indigo-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Question 6 of 8</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Data Analysis</h3>
+                                <p class="text-gray-600">What statistical or analytical methods did you use to analyze the data?</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Question 7 -->
+                        <div class="carousel-slide w-full flex-shrink-0">
+                            <div class="text-center mb-6">
+                                <span class="inline-block bg-indigo-100 text-indigo-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Question 7 of 8</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Ethical Considerations</h3>
+                                <p class="text-gray-600">What ethical considerations were addressed? (e.g., informed consent, IRB approval, confidentiality)</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Question 8 -->
+                        <div class="carousel-slide w-full flex-shrink-0">
+                            <div class="text-center mb-6">
+                                <span class="inline-block bg-indigo-100 text-indigo-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Question 8 of 8</span>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Limitations</h3>
+                                <p class="text-gray-600">What were the limitations of your methodology? What constraints or challenges did you face?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <div class="flex justify-between items-center mt-6">
+                    <button id="prevButton" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- Indicators -->
+                    <div id="indicators" class="flex gap-2">
+                        <span class="indicator w-2 h-2 rounded-full bg-indigo-600"></span>
+                        <span class="indicator w-2 h-2 rounded-full bg-gray-300"></span>
+                        <span class="indicator w-2 h-2 rounded-full bg-gray-300"></span>
+                        <span class="indicator w-2 h-2 rounded-full bg-gray-300"></span>
+                        <span class="indicator w-2 h-2 rounded-full bg-gray-300"></span>
+                        <span class="indicator w-2 h-2 rounded-full bg-gray-300"></span>
+                        <span class="indicator w-2 h-2 rounded-full bg-gray-300"></span>
+                        <span class="indicator w-2 h-2 rounded-full bg-gray-300"></span>
+                    </div>
+                    
+                    <button id="nextButton" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-indigo-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recording Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-6">
+            <div class="flex flex-col items-center">
+                <!-- Microphone Button -->
+                <button id="micButton" class="relative w-24 h-24 rounded-full bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-indigo-300 mb-4">
+                    <svg id="micIcon" class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                    </svg>
+                </button>
+
+                <!-- Status Text -->
+                <p id="statusText" class="text-gray-600 mb-4 text-lg font-medium">Click the microphone to start recording</p>
+                <!-- Mode Badge: shows whether live transcript is available -->
+                <p id="modeBadge" class="text-sm text-gray-500 mb-2"></p>
+
+                <!-- Transcript Display -->
+                <div id="transcriptContainer" class="w-full hidden">
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                        <p id="transcript" class="text-gray-700 leading-relaxed min-h-[60px]"></p>
+                    </div>
+                    
+                    <!-- Save Button -->
+                    <button id="saveButton" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-green-300">
+                        Save Entry
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Saved Entries Section -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Saved Entries</h2>
+                <button id="clearAllButton" class="text-red-600 hover:text-red-700 text-sm font-medium focus:outline-none hidden">
+                    Clear All
+                </button>
+            </div>
+            
+            <div id="entriesList" class="space-y-4">
+                <p class="text-gray-400 text-center py-8">No entries yet. Start recording to create your first diary entry!</p>
+            </div>
+            <a href="exercisesindex2.html" class="next-btn">Go to Exercises</a>
+        </div>
+    </div>
+
+    <script>
+        // Feature detection: SpeechRecognition (Web Speech API) vs MediaRecorder fallback
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const isSpeechSupported = Boolean(SpeechRecognition);
+
+        let recognition = null;
+        if (isSpeechSupported) {
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+        } else {
+            // Non-blocking notice instead of alert so the script can continue
+            console.info('SpeechRecognition not supported; falling back to audio recording (MediaRecorder). Use Chrome/Edge for live speech-to-text.');
+        }
+
+        // MediaRecorder fallback variables
+        let mediaRecorder = null;
+        let recordedChunks = [];
+
+        // DOM elements
+        const micButton = document.getElementById('micButton');
+        const statusText = document.getElementById('statusText');
+        const transcriptContainer = document.getElementById('transcriptContainer');
+        const transcript = document.getElementById('transcript');
+        const modeBadge = document.getElementById('modeBadge');
+        const saveButton = document.getElementById('saveButton');
+        const entriesList = document.getElementById('entriesList');
+        const clearAllButton = document.getElementById('clearAllButton');
+
+        // State
+        let isRecording = false;
+        let finalTranscript = '';
+        let interimTranscript = '';
+
+        // Load saved entries from localStorage
+        function loadEntries() {
+            const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+            displayEntries(entries);
+        }
+
+        // Update the small UI mode badge that indicates whether live transcript is available
+        function updateModeBadge() {
+            if (!modeBadge) return;
+            if (isSpeechSupported) {
+                modeBadge.textContent = 'Live transcript available — speech-to-text enabled.';
+                modeBadge.className = 'text-sm text-green-600 mb-2';
+            } else {
+                modeBadge.textContent = 'Audio-only mode — live transcript unavailable in this browser.';
+                modeBadge.className = 'text-sm text-orange-600 mb-2';
+            }
+        }
+
+        // initialize badge
+        updateModeBadge();
+
+        // Browser notice modal: show when speech not supported unless user opted out
+        const browserNotice = document.getElementById('browserNotice');
+        const noticeDismiss = document.getElementById('noticeDismiss');
+        const closeNotice = document.getElementById('closeNotice');
+        const dontShowAgain = document.getElementById('dontShowAgain');
+
+        function showBrowserNoticeIfNeeded() {
+            try {
+                const optedOut = localStorage.getItem('hideBrowserNotice') === '1';
+                if (!isSpeechSupported && !optedOut && browserNotice) {
+                    browserNotice.classList.remove('hidden');
+                }
+            } catch (e) {
+                console.error('Could not access localStorage for browser notice', e);
+            }
+        }
+
+        function hideBrowserNotice(persist) {
+            if (!browserNotice) return;
+            browserNotice.classList.add('hidden');
+            if (persist) {
+                try { localStorage.setItem('hideBrowserNotice', '1'); } catch (e) { /* ignore */ }
+            }
+        }
+
+        if (noticeDismiss) noticeDismiss.addEventListener('click', () => hideBrowserNotice(dontShowAgain && dontShowAgain.checked));
+        if (closeNotice) closeNotice.addEventListener('click', () => hideBrowserNotice(dontShowAgain && dontShowAgain.checked));
+
+        // call on init
+        showBrowserNoticeIfNeeded();
+
+        // Display entries
+        function displayEntries(entries) {
+            if (entries.length === 0) {
+                entriesList.innerHTML = '<p class="text-gray-400 text-center py-8">No entries yet. Start recording to create your first diary entry!</p>';
+                clearAllButton.classList.add('hidden');
+                return;
+            }
+
+            clearAllButton.classList.remove('hidden');
+            entriesList.innerHTML = entries.map((entry, index) => {
+                if (entry.type === 'audio') {
+                    // reconstruct audio src from base64
+                    const src = `data:audio/webm;base64,${entry.data}`;
+                    return `
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 fade-in">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-sm text-gray-500">${new Date(entry.timestamp).toLocaleString()}</span>
+                                <button onclick="deleteEntry(${index})" class="text-red-500 hover:text-red-700 focus:outline-none">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <audio controls src="${src}"></audio>
+                        </div>
+                    `;
+                }
+
+                // default: text entry
+                return `
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200 fade-in">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-sm text-gray-500">${new Date(entry.timestamp).toLocaleString()}</span>
+                            <button onclick="deleteEntry(${index})" class="text-red-500 hover:text-red-700 focus:outline-none">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">${entry.text || ''}</p>
+                    </div>
+                `;
+            }).reverse().join('');
+        }
+
+        // Save entry
+        function saveEntry() {
+            if (!finalTranscript.trim()) return;
+
+            const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+            entries.push({
+                text: finalTranscript.trim(),
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('diaryEntries', JSON.stringify(entries));
+
+            // Reset
+            finalTranscript = '';
+            interimTranscript = '';
+            transcript.textContent = '';
+            transcriptContainer.classList.add('hidden');
+            statusText.textContent = 'Entry saved! Click the microphone to record again';
+
+            loadEntries();
+        }
+
+        // Delete entry
+        window.deleteEntry = function(index) {
+            const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+            entries.splice(index, 1);
+            localStorage.setItem('diaryEntries', JSON.stringify(entries));
+            loadEntries();
+        };
+
+        // Clear all entries
+        clearAllButton.addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete all entries?')) {
+                localStorage.removeItem('diaryEntries');
+                loadEntries();
+            }
+        });
+
+        // Toggle recording
+        micButton.addEventListener('click', () => {
+            if (isRecording) {
+                // Stop either speech recognition or media recorder
+                if (isSpeechSupported && recognition) {
+                    recognition.stop();
+                } else if (mediaRecorder && mediaRecorder.state === 'recording') {
+                    mediaRecorder.stop();
+                }
+            } else {
+                // Start either speech recognition or media recorder
+                if (isSpeechSupported && recognition) {
+                    finalTranscript = '';
+                    interimTranscript = '';
+                    transcript.textContent = '';
+                    recognition.start();
+                } else {
+                    // Start MediaRecorder recording
+                    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                        recordedChunks = [];
+                        mediaRecorder = new MediaRecorder(stream);
+
+                        mediaRecorder.addEventListener('dataavailable', e => {
+                            if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+                        });
+
+                        mediaRecorder.addEventListener('start', () => {
+                            isRecording = true;
+                            micButton.classList.add('recording-pulse', 'bg-red-600', 'hover:bg-red-700');
+                            micButton.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                            statusText.textContent = 'Recording audio...';
+                            statusText.classList.add('text-red-600');
+                            transcriptContainer.classList.remove('hidden');
+                            // show a placeholder while recording
+                            transcript.innerHTML = '<em>Recording audio — no live transcript available in this browser.</em>';
+                        });
+
+                        mediaRecorder.addEventListener('stop', async () => {
+                            isRecording = false;
+                            micButton.classList.remove('recording-pulse', 'bg-red-600', 'hover:bg-red-700');
+                            micButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                            statusText.textContent = 'Recording stopped. Review your audio below';
+                            statusText.classList.remove('text-red-600');
+
+                            const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+                            const url = URL.createObjectURL(blob);
+
+                            // Replace transcript area with audio player and enable save
+                            transcript.innerHTML = `<audio controls src="${url}"></audio>`;
+                            // store the last recorded blob for save
+                            transcript.dataset.lastAudio = url;
+                            transcript.dataset.lastBlobIndex = Date.now();
+                            // attach blob to a temporary window map for saving since localStorage can't store blobs directly
+                            window.__lastRecordedBlob = blob;
+                        });
+
+                        mediaRecorder.start();
+                    }).catch(err => {
+                        console.error('Microphone access denied or error:', err);
+                        statusText.textContent = 'Microphone access denied. Please enable microphone and try again.';
+                    });
+                }
+            }
+        });
+
+        // Recognition event handlers (only attach if supported)
+        if (isSpeechSupported && recognition) {
+            recognition.onstart = () => {
+                isRecording = true;
+                micButton.classList.add('recording-pulse', 'bg-red-600', 'hover:bg-red-700');
+                micButton.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                statusText.textContent = 'Listening... Speak now';
+                statusText.classList.add('text-red-600');
+                transcriptContainer.classList.remove('hidden');
+            };
+
+            recognition.onresult = (event) => {
+                interimTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcriptPiece = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcriptPiece + ' ';
+                    } else {
+                        interimTranscript += transcriptPiece;
+                    }
+                }
+
+                transcript.textContent = finalTranscript + interimTranscript;
+            };
+
+            recognition.onend = () => {
+                isRecording = false;
+                micButton.classList.remove('recording-pulse', 'bg-red-600', 'hover:bg-red-700');
+                micButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                statusText.textContent = 'Recording stopped. Review your entry below';
+                statusText.classList.remove('text-red-600');
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                isRecording = false;
+                micButton.classList.remove('recording-pulse', 'bg-red-600', 'hover:bg-red-700');
+                micButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                statusText.textContent = `Error: ${event.error}. Please try again.`;
+                statusText.classList.remove('text-red-600');
+            };
+        }
+
+        // Save button handler
+        saveButton.addEventListener('click', async () => {
+            if (isSpeechSupported && recognition) {
+                saveEntry();
+                return;
+            }
+
+            // If using MediaRecorder fallback, save the last recorded audio blob
+            const blob = window.__lastRecordedBlob;
+            if (!blob) return;
+
+            // Convert blob to base64 for storage
+            const base64 = await blobToBase64(blob);
+            const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+            entries.push({ type: 'audio', data: base64, timestamp: new Date().toISOString() });
+            localStorage.setItem('diaryEntries', JSON.stringify(entries));
+
+            // cleanup
+            delete window.__lastRecordedBlob;
+            transcript.textContent = '';
+            transcriptContainer.classList.add('hidden');
+            statusText.textContent = 'Audio saved! Click the microphone to record again';
+            loadEntries();
+        });
+
+        // helper to convert blob to base64
+        function blobToBase64(blob) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        // Load entries on page load
+        loadEntries();
+
+        const carouselTrack = document.getElementById('carouselTrack');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+        const indicators = document.querySelectorAll('.indicator');
+        let currentSlide = 0;
+        const totalSlides = 8;
+
+        function updateCarousel() {
+            // Move carousel
+            carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                if (index === currentSlide) {
+                    indicator.classList.remove('bg-gray-300');
+                    indicator.classList.add('bg-indigo-600');
+                } else {
+                    indicator.classList.remove('bg-indigo-600');
+                    indicator.classList.add('bg-gray-300');
+                }
+            });
+            
+            // Update button states
+            prevButton.disabled = currentSlide === 0;
+            nextButton.disabled = currentSlide === totalSlides - 1;
+        }
+
+        prevButton.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateCarousel();
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateCarousel();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Webpage</title>
+    <style>
+        body {
+            background: #f5f6fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .login-container {
+            background: #fff;
+            padding: 2rem 2.5rem 2rem 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(44, 62, 80, 0.10);
+            max-width: 350px;
+            width: 100%;
+        }
+        .login-container h2 {
+            margin-bottom: 1.5rem;
+            color: #273c75;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #353b48;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #dcdde1;
+            background: #f1f2f6;
+            font-size: 1rem;
+            transition: border .2s;
+        }
+        .form-group input:focus {
+            border: 1.5px solid #0097e6;
+            outline: none;
+            background: #f9f9f9;
+        }
+        .login-btn {
+            width: 100%;
+            border: none;
+            padding: 0.85rem;
+            background: #0097e6;
+            color: #fff;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .login-btn:hover {
+            background: #4078c0;
+        }
+        .error-message {
+            color: #e84118;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 0.95rem;
+            display: none;
+        }
+        @media (max-width: 400px) {
+            .login-container {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <div id="error" class="error-message"></div>
+        <form id="loginForm" autocomplete="off">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your username" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="current-password">
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+    <script>
+        // Simple front-end validation logic
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorDiv = document.getElementById('error');
+            errorDiv.style.display = 'none';
+            errorDiv.textContent = '';
+
+            if (!username || !password) {
+                errorDiv.textContent = 'Username and password are required.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            // Demo hardcoded login
+            if(username === "admin" && password === "password123") {
+                errorDiv.style.display = 'none';
+                alert('Login successful! (demo)');
+                // Redirect or show logged-in content here
+                setTimeout(()=>{
+                    //  window.location.href="tienda.html"; 
+                    window.location.href="https://udemy.com";
+                }, 1000);
+            } else {
+                errorDiv.textContent = 'Invalid username or password.';
+                errorDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
