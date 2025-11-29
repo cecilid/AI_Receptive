@@ -5,63 +5,188 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voice Diary</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @keyframes pulse-ring {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.5);
-                opacity: 0;
-            }
+    <style id="light-css">
+    /* Ensure light mode background */
+    body {
+        background: linear-gradient(to bottom right, rgb(238, 242, 255), rgb(250, 245, 255)) !important;
+        color: inherit;
+    }
+    
+    .bg-gradient-to-br {
+        background: linear-gradient(to bottom right, rgb(238, 242, 255), rgb(250, 245, 255)) !important;
+    }
+    
+    @keyframes pulse-ring {
+        0% {
+            transform: scale(1);
+            opacity: 1;
         }
-        
-        .recording-pulse::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: rgba(239, 68, 68, 0.4);
-            animation: pulse-ring 1.5s ease-out infinite;
+        100% {
+            transform: scale(1.5);
+            opacity: 0;
         }
-        
-        .fade-in {
-            animation: fadeIn 0.3s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .next-btn {
-            background-color: #4F46E5;
-            color: white;
-            padding: 12px 22px;
-            font-size: 16px;
-            text-decoration: none;
-            display: inline-block;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-        .next-btn:hover {
-            background-color: #4338CA;
-        }
+    }
+    
+    .recording-pulse::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(239, 68, 68, 0.4);
+        animation: pulse-ring 1.5s ease-out infinite;
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .next-btn {
+        background-color: #4F46E5;
+        color: white;
+        padding: 12px 22px;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+    .next-btn:hover {
+        background-color: #4338CA;
+    }
+</style>
 
-    </style>
-</head>
-<body class="bg-gradient-to-br from-indigo-50 to-purple-50 min-h-screen p-4 md:p-8">
-    <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-800 mb-2">Let's write the Methodology of your paper</h1>
-            <p class="text-gray-600">answer this questions</p>
-            
-        </header>
+     <style id="styles2-css" disabled>
+    body {
+        background: linear-gradient(to bottom right, #1a1a2e, #16213e) !important;
+        color: #e5e5e5;
+        min-height: 100vh;
+    }
+    
+    /* Override Tailwind gradient classes */
+    .bg-gradient-to-br {
+        background: linear-gradient(to bottom right, #1a1a2e, #16213e) !important;
+    }
+    
+    .from-indigo-50 {
+        --tw-gradient-from: #1a1a2e !important;
+    }
+    
+    .to-purple-50 {
+        --tw-gradient-to: #16213e !important;
+    }
+    
+    @keyframes pulse-ring {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+    
+    .recording-pulse::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(239, 68, 68, 0.4);
+        animation: pulse-ring 1.5s ease-out infinite;
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .next-btn {
+        background-color: #6366F1;
+        color: white;
+        padding: 12px 22px;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+    .next-btn:hover {
+        background-color: #4F46E5;
+    }
+    
+    /* Dark mode overrides for common elements */
+    h1, h2, h3, h4, h5, h6 {
+        color: #f5f5f5;
+    }
+    
+    /* Cards and containers */
+    .bg-white {
+        background-color: #2d2d2d !important;
+    }
+    
+    /* Text colors */
+    .text-gray-600 {
+        color: #a3a3a3 !important;
+    }
+    
+    .text-gray-700 {
+        color: #d4d4d4 !important;
+    }
+    
+    .text-gray-800 {
+        color: #e5e5e5 !important;
+    }
+    
+    .text-gray-900 {
+        color: #f5f5f5 !important;
+    }
+    
+    /* Borders */
+    .border-gray-200 {
+        border-color: #404040 !important;
+    }
+    
+    .border-gray-300 {
+        border-color: #525252 !important;
+    }
+    
+    /* Input fields */
+    input, textarea, select {
+        background-color: #2d2d2d !important;
+        color: #e5e5e5 !important;
+        border-color: #404040 !important;
+    }
+    
+    /* Shadows - make them darker/subtler in dark mode */
+    .shadow-lg {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3) !important;
+    }
+</style>
+
+<header class="text-center mb-8 relative">
+    <h1 class="text-4xl font-bold text-gray-800 mb-2">Let's write the Methodology of your paper</h1>
+    <p class="text-gray-600">answer this questions</p>
+    <button id="theme-toggle" class="absolute top-0 right-0 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition">
+        🌙
+    </button>
+</header>
 
         <!-- Browser notice shown when speech recognition is unavailable -->
         <div id="browserNotice" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
