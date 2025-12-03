@@ -113,7 +113,7 @@ function updateActivityList() {
                     <div class="activity-title">${activity.title}</div>
                     <div class="activity-time">${timeAgo}</div>
                 </div>
-                <div class="activity-badge">${activity.type}</div>
+               // <div class="activity-badge">${activity.type}</div>
             </div>
         `
     })
