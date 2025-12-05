@@ -347,6 +347,22 @@
             </div>
         </div>
 
+        <!-- NEW WRITING AREA (inserted BEFORE recording section) -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Writing Area</h2>
+            <p class="text-gray-600 mb-4">Prefer typing? Draft here and merge with your recording.</p>
+
+            <textarea id="writingArea" class="w-full min-h-[160px] border border-gray-300 rounded-lg p-4 text-gray-800" placeholder="Write your methodology notes here..."></textarea>
+
+            <div class="flex items-center justify-between mt-3">
+                <span id="charCounter" class="text-gray-500 text-sm">0 characters</span>
+                <div class="flex gap-2">
+                    <button id="mergeBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Add to Entry</button>
+                    <button id="clearWritingBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Clear</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Saved Entries Section -->
         <div class="bg-white rounded-2xl shadow-lg p-8">
             <div class="flex items-center justify-between mb-6">
@@ -364,6 +380,40 @@
     </div>
 
     <script>
+        // Load saved writing
+        const writingArea = document.getElementById('writingArea');
+        const charCounter = document.getElementById('charCounter');
+        writingArea.value = localStorage.getItem('diaryWriting') || '';
+        charCounter.textContent = `${writingArea.value.length} characters`;
+
+        writingArea.addEventListener('input', () => {
+            charCounter.textContent = `${writingArea.value.length} characters`;
+            localStorage.setItem('diaryWriting', writingArea.value);
+        });
+
+        document.getElementById('clearWritingBtn').addEventListener('click', () => {
+            writingArea.value = '';
+            charCounter.textContent = '0 characters';
+            localStorage.setItem('diaryWriting', '');
+        });
+
+        // Merge into entries
+        const mergeBtn = document.getElementById('mergeBtn');
+        mergeBtn.addEventListener('click', () => {
+            const text = writingArea.value.trim();
+            if (!text) {
+                alert('Write something before adding.');
+                return;
+            }
+            const entries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+            entries.push({ text, timestamp: new Date().toISOString() });
+            localStorage.setItem('diaryEntries', JSON.stringify(entries));
+            writingArea.value = '';
+            charCounter.textContent = '0 characters';
+            localStorage.setItem('diaryWriting', '');
+            loadEntries();
+        });
+
         // Feature detection: SpeechRecognition (Web Speech API) vs MediaRecorder fallback
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const isSpeechSupported = Boolean(SpeechRecognition);
